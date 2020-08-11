@@ -1,9 +1,10 @@
 let scores, roundscores, activeplayer, gamePlaying;
 
+let winScore = document.getElementById("win-score");
 init();
 
 function nextPlayer() {
-  document.querySelector(".dice").style.opacity = 0;
+  document.querySelectorAll(".dice").forEach((el) => (el.style.opacity = 0));
   roundscores = 0;
   document.getElementById(`current-${activeplayer}`).textContent = roundscores;
   activeplayer === 0 ? (activeplayer = 1) : (activeplayer = 0);
@@ -17,15 +18,28 @@ function nextPlayer() {
 }
 
 document.querySelector(".btn-roll").addEventListener("click", function () {
+  winScore.disabled = true;
   if (gamePlaying) {
     let dice = Math.floor(Math.random() * 6 + 1);
 
-    const diceDom = document.querySelector(".dice");
+    const diceDom = document.querySelector(".dice1");
     diceDom.style.opacity = 1;
     diceDom.src = `dice-${dice}.png`;
 
-    if (dice !== 1) {
-      roundscores += dice;
+    let dice2 = Math.floor(Math.random() * 6 + 1);
+
+    const diceDom2 = document.querySelector(".dice2");
+    diceDom2.style.opacity = 1;
+    diceDom2.src = `dice-${dice2}.png`;
+
+    let sumDice = dice + dice2;
+
+    if (dice === 6 && dice2 === 6) {
+      scores[activeplayer] = 0;
+      document.querySelector(`#score-${activeplayer}`).textContent = "0";
+      nextPlayer();
+    } else if (dice !== 1 && dice2 !== 1) {
+      roundscores += sumDice;
       document.getElementById(
         `current-${activeplayer}`
       ).textContent = roundscores;
@@ -42,7 +56,8 @@ document.querySelector(".btn-hold").addEventListener("click", function () {
       scores[activeplayer];
     const diceDom = document.querySelector(".dice");
     diceDom.style.opacity = 0;
-    if (scores[activeplayer] >= 100) {
+
+    if (scores[activeplayer] >= winScore.value) {
       document.getElementById(`name-${activeplayer}`).textContent = "Winner!";
       document.querySelector(".dice").style.opacity = "0";
       document
@@ -64,10 +79,12 @@ function init() {
   scores = [0, 0];
   roundscores = 0;
   activeplayer = 0;
+  winScore.disabled = false;
+  winScore.value = "100";
 
   gamePlaying = true;
 
-  document.querySelector(".dice").style.opacity = 0;
+  document.querySelectorAll(".dice").forEach((el) => (el.style.opacity = 0));
 
   document.querySelector("#score-0").textContent = "0";
   document.querySelector("#score-1").textContent = "0";
