@@ -85,7 +85,7 @@ body {
   position: absolute;
   color: #eb4d4d;
   top: -7px;
-  right: 80px;
+  right: 15%;
 }
 
 .player-current-box {
@@ -165,10 +165,10 @@ i {
   transition: opacity 1s;
 }
 .dice1 {
-  right: 40%;
+  right: 35%;
 }
 .dice2 {
-  left: 40%;
+  left: 35%;
 }
 
 .winner {
